@@ -1,0 +1,71 @@
+package academian;
+
+import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class Bookmyshow {
+
+	public static void main(String[] args) throws Exception {
+		// TODO Auto-generated method stub
+		System.setProperty("webdriver.chrome.driver", "D:\\Selenium\\chromedriver_win32\\chromedriver.exe");
+		WebDriver driver = new ChromeDriver();
+		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		driver.manage().window().maximize();
+		driver.get("https://in.bookmyshow.com/explore/home");
+		Thread.sleep(1000);
+		driver.findElement(By.xpath("//*[text()='Bengaluru']"));
+		Thread.sleep(1000); 	
+		
+		driver.findElement(By.xpath("//*[text()='Sign in']"));
+		Thread.sleep(1000);
+		driver.findElement(By.xpath("//*[contains(@class,'sc-kfGgVZ jSlJiL')]/div[@class='sc-esjQYD hQmIbt'][2]/div[@class='sc-kIPQKe grMkKV']/div[@class='sc-RefOD iCukgs']")).click();
+		
+		WebElement email = driver.findElement(By.xpath("//input[@id='emailId']"));
+		email.sendKeys("seleniumauto@yopmail.com");
+		driver.findElement(By.xpath("//button[text()='Continue']")).click();
+		
+		 ArrayList<String> newTb = new ArrayList<String>(driver.getWindowHandles());
+	     
+	      driver.switchTo().window(newTb.get(1));
+	      
+		driver.get("https://yopmail.com/");
+		Thread.sleep(1000);
+		driver.findElement(By.xpath("//input[@class='ycptinput']")).sendKeys("seleniumauto@yopmail.com");
+		driver.findElement(By.xpath("//div[@id='refreshbut']")).click();
+		driver.findElement(By.xpath("//button[@id='refresh']")).click();
+		
+		WebElement otp =driver.findElement(By.xpath("//td[contains(@style,'text-decoration')]"));
+		otp.sendKeys(Keys.CONTROL);
+        otp.sendKeys("A");
+        otp.sendKeys(Keys.CONTROL);
+        otp.sendKeys("C");
+        
+        driver.switchTo().window(newTb.get(0));
+        
+        otp.sendKeys(Keys.CONTROL);
+        otp.sendKeys("V");
+        
+        
+        WebElement loggedInUser = driver.findElement(By.xpath("//span[@class='sc-etwtAo kqixli']"));     
+        if (loggedInUser.isDisplayed()) 
+        {
+        	driver.getPageSource().contains("Hi, User");
+        
+        
+        System.out.println("User Logged in");
+        }
+        else
+        {
+        	System.out.println("User not Logged in try again");
+        }
+        	
+        
+        driver.close();
+}
+
+}
